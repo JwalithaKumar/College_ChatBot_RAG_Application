@@ -1,9 +1,3 @@
-"""Reusable RAG engine for Jwalitha's profile chatbot.
-
-Generated from the code cells in Jwalitha_Chatbot_RAG_Clean.ipynb.
-No Colab-specific code, test calls, or secrets.
-"""
-
 import os
 from pathlib import Path
 
@@ -57,12 +51,26 @@ def build_vector_database(chunks, model_name="all-MiniLM-L6-v2"):
     return embedding_model, index
 
 
-def load_knowledge_base(pdf_path="Jwalithapro.pdf"):
-    """Return (embedding_model, chunks, faiss_index)."""
-    full_text = load_pdf(pdf_path)
-    chunks = create_chunks(full_text)
-    embedding_model, index = build_vector_database(chunks)
-    return embedding_model, chunks, index
+
+def load_knowledge_base(folder_path="college_docs"):
+    folder = Path(folder_path)
+    if not folder.is_dir():
+        raise ValueError("College documents folder not found.")
+    all_chunks = []
+    pdf_files = sorted(folder.glob("*.pdf"))
+    if not pdf_files:
+        raise ValueError("No PDF files found in college_docs.")
+    for pdf_path in pdf_files:
+        print("Processing:", pdf_path.name)
+        full_text = load_pdf(pdf_path)
+        chunks = create_chunks(
+            full_text,
+            chunk_size=500,
+            overlap=100)
+        all_chunks.extend(chunks)
+    embedding_model, index = build_vector_database(all_chunks)
+    return embedding_model, all_chunks, index
+
 
 
 def retrieve_context(question, embedding_model, chunks, index, top_k=3):
