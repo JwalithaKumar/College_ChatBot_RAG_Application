@@ -43,7 +43,7 @@ def load_knowledge_base(pdf_path="college_docs"):
         full_text = load_pdf(pdf)
         chunks.extend(create_chunks(full_text))
     index, embed_model = build_vectors(chunks)
-    return embed_model, chunks, index
+    return index, embed_model, chunks
 
 #retrieve
 def retrieve_content (question, embed_model, chunks, index, num_chunks=3):
