@@ -8,7 +8,7 @@ st.title("🤖 College Info Assistant")
 def initialize_rag():
     return load_knowledge_base("college_Docs")
 
-index, embed_model, chunks= initialize_rag()
+index, chunks, embed_model = initialize_rag()
 st.write("Index type:", type(index))
 st.write("Embedding model type:", type(embed_model))
 
