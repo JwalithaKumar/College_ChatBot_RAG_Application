@@ -35,7 +35,7 @@ if question:
     with st.chat_message("assistant"):
         with st.spinner("Finding answer..."):
             answer = ask_rag(
-                question, embedding_model, chunks, index,
+                question, embed_model, chunks, index,
                 api_key=api_key, num_chunks=3
             )
             st.write(answer)
