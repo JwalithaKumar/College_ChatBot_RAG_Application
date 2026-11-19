@@ -8,7 +8,7 @@ st.title("🤖 College Info Assistant")
 def initialize_rag():
     return load_knowledge_base("college_Docs")
 
-embed_model, chunks, index = initialize_rag()
+index, embed_model, chunks = initialize_rag()
 
 api_key = st.secrets["GROQ_API_KEY"]
 
