@@ -51,6 +51,8 @@ def retrieve_content (question, embed_model, chunks, index, num_chunks=3):
     raise ValueError("Question cannot be blank")
   if num_chunks < 1:
     raise ValueError("Request atleast one or more chunks")
+  print("INDEX TYPE:", type(index), flush=True)
+  print("EMBED MODEL TYPE:", type(embed_model), flush=True)
   query_embed = embed_model.encode([question], convert_to_numpy=True)
   faiss.normalize_L2(query_embed)
   sim_scores, vec_indices = index.search(query_embed, min(num_chunks, len(chunks)))
